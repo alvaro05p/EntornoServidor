@@ -10,7 +10,7 @@
     rsort($numeros);
 
     for( $i = 0; $i < count($numeros); $i++ ){
-        echo $numeros[$i] ."";
+        echo $numeros[$i] ."\n";
     }
 
 ?>
