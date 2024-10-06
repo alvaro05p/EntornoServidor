@@ -2,6 +2,6 @@
 
     $fecha = date("H:i:s l");
 
-    echo $fecha;
+    echo $fecha . "\n";
 
 ?>
