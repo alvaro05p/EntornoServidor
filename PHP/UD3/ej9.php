@@ -4,13 +4,13 @@
 
     echo "Numero : " . $num . "\n";
 
-    $factorial = 0;
+    $factorial = $num;
 
     for($i = $num; $i>0; $i--){
         
         $anterior = $factorial;
         $factorial += $i;
-        echo $anterior . " + " . $i . " = " . $factorial . "\n";
+        echo $anterior . " * " . $i . " = " . $factorial . "\n";
     }
 
 ?>
