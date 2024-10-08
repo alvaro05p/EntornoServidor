@@ -1,4 +1,5 @@
 <?php
+
 function tipoCaracter($caracter) {
     switch (true) {
         // letra mayúscula

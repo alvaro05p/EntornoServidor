@@ -2,6 +2,15 @@
 
     $num = rand(1, 15);
 
-    echo $num;
+    echo "Numero : " . $num . "\n";
+
+    $factorial = 0;
+
+    for($i = $num; $i>0; $i--){
+        
+        $anterior = $factorial;
+        $factorial += $i;
+        echo $anterior . " + " . $i . " = " . $factorial . "\n";
+    }
 
 ?>
