@@ -1,5 +1,10 @@
 <?php
 
+    /**
+     * @author Álvaro Pardo Peralta
+     * Elabora un programa que dado un carácter determine si es:
+     */
+
 function tipoCaracter($caracter) {
     switch (true) {
         // letra mayúscula

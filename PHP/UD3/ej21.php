@@ -1,5 +1,11 @@
 <?php
 
+    /**
+     * @author Álvaro Pardo Peralta
+     * Escribe un programa que diga cuál es la penúltima cifra de un número entero introducido por 
+     * teclado. Se permiten números de hasta 5 cifras
+     */
+
     $num = readline("Numero: ");
     $length = strlen($num);
 

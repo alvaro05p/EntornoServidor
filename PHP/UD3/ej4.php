@@ -1,5 +1,10 @@
 <?php
 
+    /**
+     * @author Álvaro Pardo Peralta
+     * Elabora un programa para determinar si una hora leída en la forma horas, minutos y segundos 
+     * está correctamente expresada.
+     */
     $hora = readline("Introducir hora hh:mm:ss => ");
 
     $partes = explode(":", $hora);

@@ -1,5 +1,10 @@
 <?php
 
+    /**
+     * @author Álvaro Pardo Peralta
+     * Escribe un programa que lea tres números positivos y compruebe si son iguales.
+     */
+
     $nums = readline("Numeros:");
 
     $separado = explode(" ", $nums);

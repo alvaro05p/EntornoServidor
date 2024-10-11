@@ -13,6 +13,7 @@
 
     for($i = 1; $i <= 10; $i++){
         $num = readline("Numero " . $i . ": ");
+        //arra_push para añadir el segundo valor al array especificado en el primer valor
         array_push($nums, $num);
 
         if($num > 0){
