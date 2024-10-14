@@ -8,7 +8,8 @@
      * satisfactoriamente”. Tendremos cuatro oportunidades para abrir la caja fuerte
      */
 
-    $pin = 5943;
+    $pin = rand(1000,9999);
+    echo $pin;
 
     for($i = 0; $i<4; $i++){
         $introducido = readline("Teclee el pin: ");
