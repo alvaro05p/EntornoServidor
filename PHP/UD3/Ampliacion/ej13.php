@@ -25,10 +25,12 @@
         $tipo = readline("Calculo: (s,r,m,d): ");
         $resuelta = [];
 
+        //Creo un switch para que según la letra haga una operación diferente
         switch($tipo){
             case "s":
                 for($i=0;$i<count($matriz1);$i++){
                     for($x=0;$x<count($matriz2);$x++){
+                        //Despues de recorrer las otras matrices realizamos el cálculo y lo guardamos en una nueva
                         $resuelta[$i][$x] = $matriz1[$i][$x] + $matriz2[$i][$x];
                     }
                 }
@@ -60,8 +62,5 @@
     }
 
     print_r(operaMatriz($matriz1,$matriz2));
-
-
-    
 
 ?>

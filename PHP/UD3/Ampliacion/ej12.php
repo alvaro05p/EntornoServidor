@@ -13,8 +13,11 @@
 
     while($num <= 1000){
         $numActual = readline("Num: ");
+        //Sumamos para saber cuantos numeros hay
         $nNums++;
+        //Sumamos al total para saber cuando llega a 1000
         $num += $numActual;
+        //Metemos todos los números introducidos en un array
         $nums[]=$numActual;
         echo $num . "\n";
     }
