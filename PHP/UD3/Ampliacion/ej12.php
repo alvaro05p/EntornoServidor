@@ -16,6 +16,13 @@
         $nNums++;
         $num += $numActual;
         $nums[]=$numActual;
-        echo $num;
+        echo $num . "\n";
     }
+
+    $media = $num/count($nums);
+
+    print_r($nums) . "\n";
+    echo "Son $nNums números \n";
+    echo "Suma: $num \n";
+    echo "Media: $media \n";
 ?>
