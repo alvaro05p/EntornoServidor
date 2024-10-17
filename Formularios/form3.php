@@ -39,14 +39,26 @@
             <input type="radio" id="sexo" name="sexo" value="Sexo" />
         </p>
 
-        <!--Select con multiple size para que salgan varias a la vez-->
-        <label for="situacion">Provincia</label>
-        <select name="situacion" id="situacion" multiple size="2">
-            <option value="estudiando">Estudiando</option>
-            <option value="trabajando">Trabajando</option>
-            <option value="buscandoEmpleo">Buscando empleo</option>
+        <!--Select de los horarios en el que se pueden ver 3 a la vez-->
+        <label for="horario">Horario</label>
+        <select name="horario" id="horario" multiple size="3">
+            <option value="8-14">8-14</option>
+            <option value="14-18">14-18</option>
+            <option value="18-21">18-21</option>
             <option value="otro">Otro</option>
         </select>
+
+        <label for="conocido">Como nos has conocido</label>
+        <div>
+            <input type="checkbox" >
+            <label for="amigo">Amigo</label>
+            <input type="checkbox" >
+            <label for="web">Web</label>
+            <input type="checkbox" >
+            <label for="prensa">Prensa</label>
+            <input type="checkbox" >
+            <label for="otros">Otros</label>
+        </div>
 
         <label for="comentario">Comentario</label>
         <textarea id="comentario" rows="6" cols="60"></textarea>
@@ -62,7 +74,11 @@
             <label for="verif">Declaro haber leído y aceptar las condiciones generales 
             del programa y la normativa sobre protección de datos.</label>
         </div>
-        <input type="submit" value="Envío">
+        <p>
+            <input type="submit" value="Envío">
+            <input type="reset" value="Borrar">
+        </p>
+        
 
     </form>
 </body>
