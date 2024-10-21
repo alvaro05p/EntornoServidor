@@ -15,22 +15,20 @@ if (isset($_GET['enviar'])) {
         $comentario = strtoupper($_GET['comentario']);
     }
 
-    if (!empty($nombre) && !empty($apellidos) && !empty($email) && !empty($user) && !empty($pass) && !empty($sexo)) {
-        //Mostramos los datos que no requieren más código que un echo
-        echo "<h2>Datos del formulario:</h2>";
-        echo "<b>Nombre:</b> $nombre<br>";
-        echo "<b>Apellidos:</b> $apellidos<br>";
-        echo "<b>Email:</b> $email<br>";
-        echo "<b>Usuario:</b> $user<br>";
-        echo "<b>Contraseña:</b> $pass<br>";
-        echo "<b>Sexo:</b> $sexo<br>";
-        echo "<b>Comentario:</b> $comentario<br>";
-    }else{
-        echo "<h2>Debes rellenar todos los campos</h2>";
+    if (empty($nombre) || empty($apellidos) || empty($email) || empty($user) || empty($pass)) {
+        echo "Por favor, complete todos los campos.<br>";
+        exit; 
     }
 
-
-    
+    //Mostramos los datos que no requieren más código que un echo
+    echo "<h2>Datos del formulario:</h2>";
+    echo "<b>Nombre:</b> $nombre<br>";
+    echo "<b>Apellidos:</b> $apellidos<br>";
+    echo "<b>Email:</b> $email<br>";
+    echo "<b>Usuario:</b> $user<br>";
+    echo "<b>Contraseña:</b> $pass<br>";
+    echo "<b>Sexo:</b> $sexo<br>";
+    echo "<b>Comentario:</b> $comentario<br>";
 
     //Si el horario no está vacío usamos implode para unir los elementos con un "-"
     if (!empty($horario)) {
@@ -68,7 +66,10 @@ if (isset($_GET['enviar'])) {
         echo "<b>Condiciones aceptadas:</b> No aceptadas<br>";
     }
 
+    echo "<h2>Debes rellenar todos los campos</h2>";
+
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -92,7 +93,7 @@ if (isset($_GET['enviar'])) {
 
         <!--Input email con longitud maxima de 250px-->
         <label for="email">Correo:</label>
-        <input type="text" name="correo" maxlength="250">
+        <input type="text" name="email" maxlength="250">
 
         <!--Username con un maximo de 5 carácteres-->
         <label for="user">Usuario:</label>
@@ -100,7 +101,7 @@ if (isset($_GET['enviar'])) {
 
         <!--Input type password para la contraseña con un maximo de 15 carácteres-->
         <label for="pass">Contraseña:</label>
-        <input type="password" name="password" maxlength="15">
+        <input type="password" name="pass" maxlength="15">
 
         <!--Input radio para elegir el sexo-->
         <label for="sexo">Sexo:</label>
