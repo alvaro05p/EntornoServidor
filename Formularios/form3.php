@@ -1,3 +1,69 @@
+<?php
+
+if (isset($_GET['enviar'])) {
+
+    //Recogemos los datos del formulario con el método get
+    if ($_SERVER["REQUEST_METHOD"] == "GET") {
+        $nombre = strtoupper($_GET['nombre']);
+        $apellidos = strtoupper($_GET['apellidos']);
+        $email = strtoupper($_GET['email']);
+        $user = strtoupper($_GET['user']);
+        $pass = strtoupper($_GET['pass']);
+        $sexo = strtoupper($_GET['sexo']);
+        $horario = $_GET['horario'];
+        $conocido = isset($_GET['conocido']) ? $_GET['conocido'] : [];
+        $comentario = strtoupper($_GET['comentario']);
+    }
+
+    //Mostramos los datos que no requieren más código que un echo
+    echo "<h2>Datos del formulario:</h2>";
+    echo "<b>Nombre:</b> $nombre<br>";
+    echo "<b>Apellidos:</b> $apellidos<br>";
+    echo "<b>Email:</b> $email<br>";
+    echo "<b>Usuario:</b> $user<br>";
+    echo "<b>Contraseña:</b> $pass<br>";
+    echo "<b>Sexo:</b> $sexo<br>";
+    echo "<b>Comentario:</b> $comentario<br>";
+
+    //Si el horario no está vacío usamos implode para unir los elementos con un "-"
+    if (!empty($horario)) {
+        echo "<b>Horario de contacto:</b> " . strtoupper(implode(" – ", $horario)) . "<br>";
+    } else {
+        echo "<b>Horario de contacto:</b> No seleccionado<br>";
+    }
+
+    // Mostrar el resultado de los checkbox, comprobamos si cierto valor está con in_array
+    echo "<b>¿Cómo nos ha conocido?</b> ";
+    if (in_array('amigo', $conocido)) {
+        echo "Amigo ";
+    }
+    if (in_array('web', $conocido)) {
+        echo "Web ";
+    }
+    if (in_array('prensa', $conocido)) {
+        echo "Prensa ";
+    }
+    if (in_array('otros', $conocido)) {
+        echo "Otros ";
+    }
+    echo "<br>";
+
+    // Verificamos si las casillas están pulsadas en los checkbox mediante isset
+    if (isset($_GET['info'])) {
+        echo "<b>Recibir ofertas:</b> Ha seleccionado recibir ofertas<br>";
+    } else {
+        echo "<b>Recibir ofertas:</b> No ha seleccionado recibir ofertas<br>";
+    }
+
+    if (isset($_GET['condiciones'])) {
+        echo "<b>Condiciones aceptadas:</b> Ha aceptado las condiciones<br>";
+    } else {
+        echo "<b>Condiciones aceptadas:</b> No aceptadas<br>";
+    }
+
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,7 +143,7 @@
             del programa y la normativa sobre protección de datos.</label>
         </div>
         <p>
-            <input type="submit" value="Envío">
+            <input type="submit" value="Envío" name="enviar">
             <input type="reset" value="Borrar">
         </p>
         
@@ -86,65 +152,3 @@
 </body>
 </html>
 
-<?php
-
-//Recogemos los datos del formulario con el método get
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    $nombre = strtoupper($_GET['nombre']);
-    $apellidos = strtoupper($_GET['apellidos']);
-    $email = strtoupper($_GET['email']);
-    $user = strtoupper($_GET['user']);
-    $pass = strtoupper($_GET['pass']);
-    $sexo = strtoupper($_GET['sexo']);
-    $horario = $_GET['horario'];
-    $conocido = isset($_GET['conocido']) ? $_GET['conocido'] : [];
-    $comentario = strtoupper($_GET['comentario']);
-}
-
-//Mostramos los datos que no requieren más código que un echo
-echo "<h2>Datos del formulario:</h2>";
-echo "<b>Nombre:</b> $nombre<br>";
-echo "<b>Apellidos:</b> $apellidos<br>";
-echo "<b>Email:</b> $email<br>";
-echo "<b>Usuario:</b> $user<br>";
-echo "<b>Contraseña:</b> $pass<br>";
-echo "<b>Sexo:</b> $sexo<br>";
-echo "<b>Comentario:</b> $comentario<br>";
-
-//Si el horario no está vacío usamos implode para unir los elementos con un "-"
-if (!empty($horario)) {
-    echo "<b>Horario de contacto:</b> " . strtoupper(implode(" – ", $horario)) . "<br>";
-} else {
-    echo "<b>Horario de contacto:</b> No seleccionado<br>";
-}
-
-// Mostrar el resultado de los checkbox, comprobamos si cierto valor está con in_array
-echo "<b>¿Cómo nos ha conocido?</b> ";
-if (in_array('amigo', $conocido)) {
-    echo "Amigo ";
-}
-if (in_array('web', $conocido)) {
-    echo "Web ";
-}
-if (in_array('prensa', $conocido)) {
-    echo "Prensa ";
-}
-if (in_array('otros', $conocido)) {
-    echo "Otros ";
-}
-echo "<br>";
-
-// Verificamos si las casillas están pulsadas en los checkbox mediante isset
-if (isset($_GET['info'])) {
-    echo "<b>Recibir ofertas:</b> Ha seleccionado recibir ofertas<br>";
-} else {
-    echo "<b>Recibir ofertas:</b> No ha seleccionado recibir ofertas<br>";
-}
-
-if (isset($_GET['condiciones'])) {
-    echo "<b>Condiciones aceptadas:</b> Ha aceptado las condiciones<br>";
-} else {
-    echo "<b>Condiciones aceptadas:</b> No aceptadas<br>";
-}
-
-?>
