@@ -15,15 +15,22 @@ if (isset($_GET['enviar'])) {
         $comentario = strtoupper($_GET['comentario']);
     }
 
-    //Mostramos los datos que no requieren más código que un echo
-    echo "<h2>Datos del formulario:</h2>";
-    echo "<b>Nombre:</b> $nombre<br>";
-    echo "<b>Apellidos:</b> $apellidos<br>";
-    echo "<b>Email:</b> $email<br>";
-    echo "<b>Usuario:</b> $user<br>";
-    echo "<b>Contraseña:</b> $pass<br>";
-    echo "<b>Sexo:</b> $sexo<br>";
-    echo "<b>Comentario:</b> $comentario<br>";
+    if (!empty($nombre) && !empty($apellidos) && !empty($email) && !empty($user) && !empty($pass) && !empty($sexo)) {
+        //Mostramos los datos que no requieren más código que un echo
+        echo "<h2>Datos del formulario:</h2>";
+        echo "<b>Nombre:</b> $nombre<br>";
+        echo "<b>Apellidos:</b> $apellidos<br>";
+        echo "<b>Email:</b> $email<br>";
+        echo "<b>Usuario:</b> $user<br>";
+        echo "<b>Contraseña:</b> $pass<br>";
+        echo "<b>Sexo:</b> $sexo<br>";
+        echo "<b>Comentario:</b> $comentario<br>";
+    }else{
+        echo "<h2>Debes rellenar todos los campos</h2>";
+    }
+
+
+    
 
     //Si el horario no está vacío usamos implode para unir los elementos con un "-"
     if (!empty($horario)) {

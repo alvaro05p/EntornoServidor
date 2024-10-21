@@ -15,6 +15,11 @@ if (isset($_GET['enviar'])) {
         $comentario = $_GET['comentario'];
     }
 
+    if (empty($nombre) || empty($apellidos) || empty($email) || empty($user) || empty($pass)) {
+        echo "Por favor, complete todos los campos.<br>";
+        exit; 
+    }
+
     //Mostramos los datos que no requieren más código que un echo
     echo "<h2>Datos del formulario:</h2>";
     echo "<b>Nombre:</b> $nombre<br>";
