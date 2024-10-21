@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Alumno - Formulario de registro 4</h1>
-    <form action="" method="get">
+    <form action="form4.php" method="get">
         <!--Nombre con un maximo de 50 carácteres-->
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" maxlength="50" placeholder="Introduce tu nombre">
@@ -116,17 +116,17 @@
 
 //Recogemos los datos del formulario con el método get
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    $nombre = isset($_GET['nombre']) ? strtoupper($_GET['nombre']) : '';
-    $apellidos = isset($_GET['apellidos']) ? strtoupper($_GET['apellidos']) : '';
-    $email = isset($_GET['email']) ? strtoupper($_GET['email']) : '';
-    $user = isset($_GET['user']) ? strtoupper($_GET['user']) : '';
-    $pass = isset($_GET['pass']) ? strtoupper($_GET['pass']) : '';
-    $sexo = isset($_GET['sexo']) ? strtoupper($_GET['sexo']) : '';
-    $provincia = isset($_GET['provincia']) ? strtoupper($_GET['provincia']) : '';
-    $horario = isset($_GET['horario']) ? $_GET['horario'] : [];
-    $conocido = isset($_GET['conocido']) ? $_GET['conocido'] : [];
-    $incidencia = isset($_GET['incidencia']) ? strtoupper($_GET['incidencia']) : '';
-    $comentario = isset($_GET['comentario']) ? strtoupper($_GET['comentario']) : '';
+    $nombre = strtoupper($_GET['nombre']);
+    $apellidos = strtoupper($_GET['apellidos']);
+    $email = strtoupper($_GET['email']);
+    $user = strtoupper($_GET['user']);
+    $pass = strtoupper($_GET['pass']);
+    $sexo = strtoupper($_GET['sexo']);
+    $provincia = strtoupper($_GET['provincia']);
+    $horario = $_GET['horario'];
+    $conocido = $_GET['conocido'];
+    $incidencia = strtoupper($_GET['incidencia']);
+    $comentario = strtoupper($_GET['comentario']);
 }
 
 //Mostramos los datos que no requieren más código que un echo
