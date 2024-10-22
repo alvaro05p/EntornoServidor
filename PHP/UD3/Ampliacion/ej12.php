@@ -28,4 +28,5 @@
     echo "Son $nNums números \n";
     echo "Suma: $num \n";
     echo "Media: $media \n";
+    
 ?>
