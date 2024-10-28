@@ -1,5 +1,9 @@
 <?php
 
+    /**
+     * @author Álvaro Pardo Peralta
+    */
+
     if (isset($_GET['enviar'])) {
         //Recogemos los datos del formulario con el método get
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -54,6 +58,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mates</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <form action="ej1.php" method="get">
