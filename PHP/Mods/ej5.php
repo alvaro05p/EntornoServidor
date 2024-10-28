@@ -33,14 +33,20 @@
         }
     }
     
-    $caracter = readline(); 
-    tipoCaracter($caracter);
+    $caracter = $_GET["caracter"];
+    
+    if(isset($_GET["comprobar"]) && strlen($caracter) == 1){
+        tipoCaracter($caracter);
+        
+    }else{
+        echo "Debe ser un solo caracter";
+    }
 
 ?>
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -50,8 +56,8 @@
 </head>
 <body>
     <h1>Tipo de caracter</h1>
-    <form action="ej5.php">
-        <input type="text" name="caracter">
+    <form action="ej5.php" method="GET">
+        <input type="text" name="caracter" placeholder="Introduce un caracter">
         <input type="submit" name="comprobar">
     </form>
 </body>
