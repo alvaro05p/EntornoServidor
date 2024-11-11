@@ -9,7 +9,7 @@
 <body>
 
 <?php
-    // Paso 1: Pedir el número de trabajadores si aún no tenemos nombres y salarios.
+    //Pedir el número de trabajadores si aún no tenemos nombres y salarios.
     if (!isset($_GET['nombres'])) {
         if (!isset($_GET['numTrabajadores'])) {
             // Mostrar el primer formulario para el número de trabajadores
@@ -22,7 +22,7 @@
 <?php
 
         }else{
-            // Paso 2: Mostrar el formulario para nombres y salarios
+            //Mostrar el formulario para nombres y salarios
             $numTrabajadores = $_GET['numTrabajadores'];
 ?>
             <form action="ej10.php" method="GET">
@@ -50,7 +50,7 @@
         }
     
     } else {
-        // Paso 3: Calcular el salario máximo, mínimo y medio
+        //Calcular el salario máximo, mínimo y medio
         $nombres = $_GET['nombres'];
         $salarios = $_GET['salarios'];
         $estadisticasSeleccionadas = $_GET['estadisticas'];
