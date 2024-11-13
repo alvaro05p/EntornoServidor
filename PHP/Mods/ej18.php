@@ -1,18 +1,3 @@
-<?php
-    $entrada = $_GET["entrada"];
-    $calculos = $_GET["calculos"];
-    $nums = explode(" ", $entrada);
-    if(in_array("media", $calculos)){
-        $total = 0;
-        foreach($nums as $num){
-            $total += $num;
-        }
-        $media = $total / count($nums);
-        
-        echo $media;
-    }
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,3 +18,41 @@
     </form>
 </body>
 </html>
+
+<?php
+    $entrada = $_GET["entrada"];
+    $calculos = $_GET["calculos"];
+    $nums = explode(" ", $entrada);
+    if(in_array("media", $calculos)){
+        $total = 0;
+        foreach($nums as $num){
+            $total += $num;
+        }
+        $media = $total / count($nums);
+        
+        echo $media;
+    }
+
+    if(in_array("moda", $calculos)){
+        $contados = array_count_values($nums);
+        $max = max($contados);
+        foreach($contados as $valor => $frecuencia){
+            if($frecuencia == $max && $frecuencia > 1){
+                echo $valor;
+            }
+        }
+    }
+
+    if(in_array("mediana", $calculos)){
+        
+        $lenght = count($nums);
+        if($lenght % 2 == 0){
+            sort($nums);
+            $mediana = $nums[$lenght/2] + $nums[$lenght/2+1];
+        }else{
+            $mediana = $nums[floor($lenght/2)];
+        }
+
+        echo $mediana;
+    }
+?>
