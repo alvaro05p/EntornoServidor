@@ -1,8 +1,9 @@
 <?php
 
-    if(isset($_POST["palabras"])){
+    $palabras1=$_POST["palabras1"];
+    $palabras2=$_POST["palabras2"];
 
-        $palabras=$_POST["palabras"];
+    function traductor($palabras){
 
         $traduccion = [];
 
@@ -22,10 +23,13 @@
         if(!empty($palabras)){
 
             foreach($palabras as $palabra ){
-                array_push($traduccion, $palabra);
+                $traducida = $traducciones[$palabra];
+                array_push($traduccion, $traducida);
             }
 
         }
+
+        return $traduccion;
 
     }
 
@@ -36,7 +40,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Traductor</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -44,22 +48,52 @@
         <table name="tabla">
             <tr name="palabra">
                 <td>
-                    <select name="palabras[]" multiple size="3">
-                        <option value="soothe">Soothe</option>
-                        <option value="sloof">Aloof</option>
-                        <option value="aghast">Aghast</option>
-                        <option value="wistful">Wistful</option>
-                        <option value="yearn">Yearn</option>
-                        <option value="daunting">Daunting</option>
-                        <option value="mirth">Mirth</option>
-                        <option value="dread">Dread</option>
-                        <option value="dusk">Dusk</option>
-                        <option value="shriek">Shriek</option>
+                    <select name="palabras1[]" multiple size="3">
+                        <option value="Soothe">Soothe</option>
+                        <option value="Aloof">Aloof</option>
+                        <option value="Aghast">Aghast</option>
+                        <option value="Wistful">Wistful</option>
+                        <option value="Yearn">Yearn</option>
+                        <option value="Daunting">Daunting</option>
+                        <option value="Mirth">Mirth</option>
+                        <option value="Dread">Dread</option>
+                        <option value="Dusk">Dusk</option>
+                        <option value="Shriek">Shriek</option>
                     </select>
                 </td>
                 <td>
                     <?php 
+
+                        $traduccion = traductor($palabras1);
+
                         foreach($traduccion as $traducida){
+                            
+                            echo $traducida . " ";
+                        }
+                    ?>
+                </td>
+            </tr>
+            <tr name="palabra">
+                <td>
+                    <select name="palabras2[]" multiple size="3">
+                        <option value="Soothe">Soothe</option>
+                        <option value="Aloof">Aloof</option>
+                        <option value="Aghast">Aghast</option>
+                        <option value="Wistful">Wistful</option>
+                        <option value="Yearn">Yearn</option>
+                        <option value="Daunting">Daunting</option>
+                        <option value="Mirth">Mirth</option>
+                        <option value="Dread">Dread</option>
+                        <option value="Dusk">Dusk</option>
+                        <option value="Shriek">Shriek</option>
+                    </select>
+                </td>
+                <td>
+                    <?php 
+                        $traduccion = traductor($palabras2);
+
+                        foreach($traduccion as $traducida){
+                            
                             echo $traducida . " ";
                         }
                     ?>
