@@ -1,5 +1,23 @@
 <?php
 
+session_start();
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $modulo = $_POST["modulo"];
+            $horas = $_POST["horas"];
+            $curso = $_POST["curso"];
+
+            if (!isset($_SESSION["schedule"])) {
+                $_SESSION["schedule"] = []; // Inicializa el array si no existe
+            }
+
+            $_SESSION["schedule"][] = [
+                "modulo" => $modulo,
+                "horas" => $horas,
+                "curso" => $curso
+            ];
+
+        }
+
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +30,7 @@
 </head>
 <body>
     <h1>Generador de horario</h1>
-    <form action="GET">
+    <form action="ej19.php" method="POST">
         <h2>Curso:</h2>
         <div>
             <label for="b1">Curso B1</label>
@@ -26,42 +44,79 @@
             <label for="c1">Curso C1</label>
             <input type="radio" id="c1" name="curso" value="C1">
         </div>
-        <h2>Módulos:</h2>
-        <select name="modulos[]" multiple size=3>
-            <option value="marketing">Marketing</option>
-            <option value="design">Diseño</option>
-            <option value="fol">FOL</option>
+        <h2>Módulo:</h2>
+        <select name="modulo">
+            <option value="Listening">Listening</option>
+            <option value="Writing">Writing</option>
+            <option value="Speaking">Speaking</option>
         </select>
         <h2>Horas:</h2>
         <div>
             <label for="8h">08:00</label>
-            <input type="checkbox" name="8h">
+            <input type="checkbox" name="horas[]" value="8">
         </div>
         <div>
             <label for="9h">09:00</label>
-            <input type="checkbox" name="9h">
+            <input type="checkbox" name="horas[]" value="9">
         </div>
         <div>
             <label for="10h">10:00</label>
-            <input type="checkbox" name="10h">
+            <input type="checkbox" name="horas[]" value="10">
         </div>
         <div>
             <label for="11h">11:00</label>
-            <input type="checkbox" name="11h">
+            <input type="checkbox" name="horas[]" value="11">
         </div>
         <div>
             <label for="12h">12:00</label>
-            <input type="checkbox" name="12h">
+            <input type="checkbox" name="horas[]" value="12">
         </div>
         <div>
             <label for="13h">13:00</label>
-            <input type="checkbox" name="13h">
+            <input type="checkbox" name="horas[]" value="13">
         </div>
         <div>
             <label for="14h">14:00</label>
-            <input type="checkbox" name="14h">
+            <input type="checkbox" name="horas[]" value="14">
         </div>
-        <input type="submit" value="Generar">
+        <input type="submit" value="Añadir">
     </form>
+
+    <h2>Horario generado:</h2>
+
+    <?php
+    
+        echo "<table>";
+        echo "<tr>";
+            echo "<td>";
+                echo "Hora";
+            echo "</td>";
+            echo "<td>";
+                echo "Asignatura";
+            echo "</td>";
+            echo "<td>";
+                echo "Curso";
+            echo "</td>";
+        echo "</tr>";
+        if (!empty($_SESSION["schedule"])) {
+            foreach ($_SESSION["schedule"] as $entry) {
+                for($i=8;$i<=14;$i++){
+                    echo "<tr>";
+                        echo "<td>";
+                            echo $i . ":00";
+                        echo"</td>";
+                        if(in_array($i, $horas)){
+                            echo "<td>$modulo</td>";
+                            echo "<td>$curso</td>";
+                        }else{
+                            echo "<td>Descanso</td>";
+                        }
+                        
+                    echo "</tr>";
+                }
+            }
+        }
+            echo "</table>";
+    ?>
 </body>
 </html>
