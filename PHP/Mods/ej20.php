@@ -20,7 +20,7 @@
 
         $hora=$_GET["hora"];
 
-        if(isset($hora)){
+        if(isset($hora) && is_numeric($hora)){
             switch($hora){
                 case($hora >= 6 && $hora <= 12):
                     echo "Buenos dias";
@@ -32,6 +32,8 @@
                     echo "Buenas noches";
                     break;
             }
+        }else{
+            echo "La hora debe ser numérica";
         }
     }
     
