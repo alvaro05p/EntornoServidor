@@ -12,12 +12,12 @@ session_start();
             echo "<br>";
             $mostrar = false;
         }
-        if(empty($_POST["edad"])){
-            echo "Indica tu edad";
+        if(empty($_POST["edad"]) || !is_numeric($_POST["edad"])){
+            echo "Indica tu edad (numero)";
             echo "<br>";
             $mostrar = false;
         }
-        if(empty($_POST["peso"])){
+        if(empty($_POST["peso"]) || $_POST["peso"] < 10 || $_POST["peso"] > 150){
             echo "Indica tu peso, entre 10 y 150";
             echo "<br>";
             $mostrar = false;

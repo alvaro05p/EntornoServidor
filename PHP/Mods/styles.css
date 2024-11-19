@@ -10,17 +10,7 @@ form{
     gap: 10px;
 }
 
-input[type=text]{
-    padding: 10px;
-    border-radius: 5px;
-}
-
-input[type=submit]{
-    padding: 10px;
-    border-radius: 5px;
-}
-
-input[type=reset]{
+input[type=text], input[type=submit], input[type=reset], input[type=password]{
     padding: 10px;
     border-radius: 5px;
 }
@@ -42,4 +32,16 @@ table{
 table, td{
     border: 1px solid black;
     padding: 5px;
+}
+
+#nacionalidad2{
+    margin-left: 35px;
+}
+
+.idiomas{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    width: 80px;
 }
