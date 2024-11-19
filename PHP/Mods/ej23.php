@@ -17,15 +17,17 @@ session_start();
             echo "<br>";
             $mostrar = false;
         }
+
+        if($mostrar){
+            $_SESSION["estudios"]=$_POST["estudios"];
+            $_SESSION["situacion"]=$_POST["situacion"];
+            $_SESSION["hobbie"]=$_POST["hobbie"];
+            $_SESSION["otros"]=$_POST["otros"];
+            header("Location: ej23pantalla.php");
+        }
+        
     }
 
-    if($mostrar){
-        $_SESSION["estudios"]=$_POST["estudios"];
-        $_SESSION["situacion"]=$_POST["situacion"];
-        $_SESSION["hobbie"]=$_POST["hobbie"];
-        $_SESSION["otros"]=$_POST["otros"];
-        header("Location: ej23pantalla.php");
-    }
 ?>
 
 <!DOCTYPE html>
@@ -50,27 +52,27 @@ session_start();
             <label for="situacion[]"><b>Situación actual</b></label>
             <div>
                 <label for="estudiando">Estudiando</label>
-                <input type="checkbox" value="estudiando" name="situacion[]">
+                <input type="checkbox" value="Estudiando" name="situacion[]">
             </div>
             <div>
                 <label for="trabajando">Trabajando</label>
-                <input type="checkbox" value="trabajando" name="situacion[]">
+                <input type="checkbox" value="Trabajando" name="situacion[]">
             </div>
             <div>
                 <label for="buscando">Buscando empleo</label>
-                <input type="checkbox" value="buscando" name="situacion[]">
+                <input type="checkbox" value="Buscando empleo" name="situacion[]">
             </div>
             <div>
                 <label for="desempleado">Desempleado</label>
-                <input type="checkbox" value="desempleado" name="situacion[]">
+                <input type="checkbox" value="Desempleado" name="situacion[]">
             </div>
         </fieldset>
         <fieldset>
             <legend>Hobbies</legend>
             <select name="hobbie[]" multiple size="2">
-                <option value="deporte">Deporte</option>
-                <option value="musica">Música</option>
-                <option value="lectura">Lectura</option>
+                <option value="Deporte">Deporte</option>
+                <option value="Musica">Música</option>
+                <option value="Lectura">Lectura</option>
                 <input type="text" placeholder="otros" name="otros">
             </select>
         </fieldset>
