@@ -1,63 +1,68 @@
 <?php
 
-    // a)Teléfonos fijos de Valencia (96 seguido de 7 dígitos)
+    /**
+     * @author Álvaro Pardo Peralta
+     * Creación y comprobación de expresiones regulares
+     */
+
+    //Fijos
     $expresionA = '/^96[0-9]{7}$/';
 
-    // b)Códigos postales de la Comunidad Valenciana (03XXX, 12XXX, 46XXX)
+    //Códigos postales
     $expresionB = '/^(03|12|46)[0-9]{3}$/';
 
-    // c)Teléfonos móviles (6 o 7 seguido de 8 dígitos)
+    //Móviles
     $expresionC = '/^[67][0-9]{8}$/';
 
-    // d)NIF (8 dígitos seguido de una letra)
+    //NIF
     $expresionD = '/^[0-9]{8}[A-Z]$/';
 
-    // e)Fecha en formato dd/mm/aaaa o dd-mm-aaaa
+    //Fecha
     $expresionE = '/^\d{2}[-\/\.]\d{2}[-\/\.]\d{4}$/';
 
-    // f)Cadena "aprobado" (mayúsculas o minúsculas)
+    //Cadena "aprobado" (mayúsculas o minúsculas)
     $expresionF = '/^aprobado$/i';
 
-    // g)Cadena que contiene "aprobado" en minúsculas
+    //Cadena que contiene "aprobado" en minúsculas
     $expresionG = '/aprobado/';
 
-    // h)Cadena que contiene "aprobado" en mayúsculas o minúsculas
+    //Cadena que contiene "aprobado" en mayúsculas o minúsculas
     $expresionH = '/aprobado/i';
 
-    // i)Letras mayúsculas/minúsculas y espacios
+    //Letras y espacios
     $expresionI = '/^[a-zA-Z ]+$/';
 
-    // j)Solo números, sin espacios
+    //Solo números
     $expresionJ = '/^\d+$/';
 
-    // k)Números con espacios
+    //Números con espacios
     $expresionK = '/^[0-9 ]+$/';
 
-    // l)Texto en blanco, números, mayúsculas/minúsculas y caracteres acentuados
+    //Texto con acentos
     $expresionL = '/^[a-zA-Z0-9 áéíóúÁÉÍÓÚüÜñÑ]+$/';
 
-    // m)Caso anterior con signos de puntuación
+    //Texto con signos de puntuación
     $expresionM = '/^[a-zA-Z0-9 áéíóúÁÉÍÓÚüÜñÑ\'",;:\-.]+$/';
 
-    // n)Dirección de email
+    //Email
     $expresionN = '/^[\w._%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/';
 
-    // o)URL sencilla
+    //URL
     $expresionO = '/^http:\/\/www\.[\w.-]+\/[\w?=&]*$/';
 
-    // p)Contraseña con al menos una minúscula, una mayúscula, un número y mínimo 6 caracteres
+    //Contraseña
     $expresionP = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/';
 
-    // q)IPv4
+    //IPv4
     $expresionQ = '/^([0-9]{1,3}\.){3}[0-9]{1,3}$/';
 
-    // r)MAC separada por ":"
+    //MAC separada por ":"
     $expresionR = '/^([0-9A-F]{2}:){5}[0-9A-F]{2}$/i';
 
-    // s)MAC separada por "-"
+    //MAC separada por "-"
     $expresionS = '/^([0-9A-F]{2}-){5}[0-9A-F]{2}$/i';
 
-    // t)Matrícula de vehículo española
+    //Matrículas
     $expresionT = '/^\d{4}[ -]?[A-Z]{3}$/';
 
     $fijo = "964324568";
