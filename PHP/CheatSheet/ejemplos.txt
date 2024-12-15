@@ -1,0 +1,24 @@
+Álvaro Pardo Peralta
+
+---------------------
+
+readline  
+round  
+count  
+array_sum  
+rsort  
+array_unique  
+rand  
+ctype_upper  
+ctype_lower  
+ctype_digit  
+ctype_space  
+ctype_punct  
+date  
+substr  
+strlen  
+strrev  
+array_filter  
+max  
+min  
+array_map
