@@ -38,15 +38,15 @@
         for($i = 0; $i < 3; $i++){
             
             if($tablero[$i][0] == " $caracter1 " && $tablero[$i][1] == " $caracter1 " && $tablero[$i][2] == " $caracter1 "){
-                $ganador = $caracter1;
+                $ganador = $nombre1;
             }else if($tablero[$i][0] == " $caracter2 " && $tablero[$i][1] == " $caracter2 " && $tablero[$i][2] == " $caracter2 "){
-                $ganador = $caracter2;
+                $ganador = $nombre2;
             }
 
             if($tablero[0][$i] == " $caracter1 " && $tablero[1][$i] == " $caracter1 " && $tablero[2][$i] == " $caracter1 "){
-                $ganador = $caracter1;
+                $ganador = $nombre1;
             }else if($tablero[0][$i] == " $caracter2 " && $tablero[1][$i] == " $caracter2 " && $tablero[2][$i] == " $caracter2 "){
-                $ganador = $caracter2;
+                $ganador = $nombre2;
             }
 
         }
@@ -54,32 +54,24 @@
 
         //Diagonales
         if($tablero[0][0] == " $caracter1 " && $tablero[1][1] == " $caracter1 " && $tablero[2][2] == " $caracter1 "){
-            $ganador = $caracter1;
+            $ganador = $nombre1;
         }else if($tablero[0][0] == " $caracter1 " && $tablero[1][1] == " $caracter1 " && $tablero[2][2] == " $caracter1 "){
-            $ganador = $caracter2;
+            $ganador = $nombre2;
         }
 
         if($tablero[2][0] == " $caracter1 " && $tablero[1][1] == " $caracter1 " && $tablero[0][2] == " $caracter1 "){
-            $ganador = $caracter1;
+            $ganador = $nombre1;
         }else if($tablero[2][0] == " $caracter1 " && $tablero[1][1] == " $caracter1 " && $tablero[0][2] == " $caracter1 "){
-            $ganador = $caracter2;
+            $ganador = $nombre2;
         }
 
         if($ganador != ""){
-            return "Partida ganada por $ganador";
+            return $ganador;
         }else{
-            return false;
+            return "";
         }
-
-        
-
         
     }
-
-    $nombre1=readline("Nombre juagador 1: ");
-    $caracter1=readline("Caracter Jugador 1 : ");
-    $nombre2=readline("Nombre juagador 2: ");
-    $caracter2=readline("Caracter Jugador 2 : ");
 
     function iniciarPartida($nombre1,$caracter1,$nombre2,$caracter2,$tablero){
 
@@ -88,7 +80,6 @@
                 $tablero[$i][$x] = "   ";
             }
         }
-        $tablero = $tablero;
         
         $continuar = true;
         $nombre = $nombre1;
@@ -96,6 +87,7 @@
         $fila=" ";
         $columna=" ";
         inicializarTablero();
+        $ganador = "";
         while($continuar){
 
             $fila = readline("$nombre ($caracter), indica la fila (0-2) o escribe 's' para abandonar la partida: ");
@@ -106,6 +98,8 @@
             }
 
             $tablero[$fila][$columna] = " $caracter ";
+
+            system('clear');
 
             imprimirTablero($tablero,$fila,$columna,$caracter);
             
@@ -119,7 +113,8 @@
             }
 
             if(verificarGanador($tablero,$caracter1,$caracter2,$nombre1,$nombre2) != ""){
-                echo verificarGanador($tablero,$caracter1,$caracter2,$nombre1,$nombre2);
+                $ganador = verificarGanador($tablero,$caracter1,$caracter2,$nombre1,$nombre2);
+                return $ganador;
                 $continuar = false;
             }
             
@@ -127,6 +122,48 @@
         
     }
 
-    iniciarPartida($nombre1,$caracter1,$nombre2,$caracter2,$tablero);
+    system('clear');
+    $nombre1=readline("Nombre juagador 1: ");
+    $caracter1=readline("Caracter Jugador 1 : ");
+    system('clear');
+    $nombre2=readline("Nombre juagador 2: ");
+    $caracter2=readline("Caracter Jugador 2 : ");
+
+    function torneo($nombre1,$caracter1,$nombre2,$caracter2,$tablero){
+
+        $partidas = 0;
+        $jugador1 = 0;
+        $jugador2 = 0;
+        $i = 1;
+
+        system('clear');
+
+        echo "Torneo al mejor de 3: ";
+
+        while($jugador1 < 2 && $jugador2 < 2){
+            
+            echo "Partida $i \n";
+            
+            $ganador = iniciarPartida($nombre1,$caracter1,$nombre2,$caracter2,$tablero);
+            system('clear');
+            echo "Ganador partida $i: $ganador\n";
+            
+            if($ganador == $nombre1){
+                $jugador1 ++;
+            }else if($ganador == $nombre2){
+                $jugador2 ++;
+            }
+            $i++;
+        };
+
+        if($jugador1 > $jugador2){
+            echo "Ganador del torneo: $nombre1\n";
+        }else{
+            echo "Ganador del torneo: $nombre2\n";
+        }
+        
+    }
+
+    torneo($nombre1,$caracter1,$nombre2,$caracter2,$tablero);
 
 ?>
