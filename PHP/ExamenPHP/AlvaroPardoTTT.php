@@ -32,21 +32,48 @@
     }
 
     function verificarGanador($tablero,$caracter1,$caracter2,$nombre1, $nombre2){
+    
+        $ganador = "";
 
-        print_r($tablero);
-        $cont1 = 0;
-        $cont2 = 0;
         for($i = 0; $i < 3; $i++){
-            if($tablero[0][$i] = $caracter1){
-                $cont1++;
-            }else if($tablero[0][$i] = $caracter2){
-                $cont2++;
+            
+            if($tablero[$i][0] == " $caracter1 " && $tablero[$i][1] == " $caracter1 " && $tablero[$i][2] == " $caracter1 "){
+                $ganador = $caracter1;
+            }else if($tablero[$i][0] == " $caracter2 " && $tablero[$i][1] == " $caracter2 " && $tablero[$i][2] == " $caracter2 "){
+                $ganador = $caracter2;
             }
-        }
-        echo "Cont1 : $cont1";
-        echo "Cont2 : $cont2";
 
-        echo "\n";
+            if($tablero[0][$i] == " $caracter1 " && $tablero[1][$i] == " $caracter1 " && $tablero[2][$i] == " $caracter1 "){
+                $ganador = $caracter1;
+            }else if($tablero[0][$i] == " $caracter2 " && $tablero[1][$i] == " $caracter2 " && $tablero[2][$i] == " $caracter2 "){
+                $ganador = $caracter2;
+            }
+
+        }
+
+
+        //Diagonales
+        if($tablero[0][0] == " $caracter1 " && $tablero[1][1] == " $caracter1 " && $tablero[2][2] == " $caracter1 "){
+            $ganador = $caracter1;
+        }else if($tablero[0][0] == " $caracter1 " && $tablero[1][1] == " $caracter1 " && $tablero[2][2] == " $caracter1 "){
+            $ganador = $caracter2;
+        }
+
+        if($tablero[2][0] == " $caracter1 " && $tablero[1][1] == " $caracter1 " && $tablero[0][2] == " $caracter1 "){
+            $ganador = $caracter1;
+        }else if($tablero[2][0] == " $caracter1 " && $tablero[1][1] == " $caracter1 " && $tablero[0][2] == " $caracter1 "){
+            $ganador = $caracter2;
+        }
+
+        if($ganador != ""){
+            return "Partida ganada por $ganador";
+        }else{
+            return false;
+        }
+
+        
+
+        
     }
 
     $nombre1=readline("Nombre juagador 1: ");
@@ -91,7 +118,10 @@
                 $caracter = $caracter1;
             }
 
-            verificarGanador($tablero,$caracter1,$caracter2,$nombre1,$nombre2);
+            if(verificarGanador($tablero,$caracter1,$caracter2,$nombre1,$nombre2) != ""){
+                echo verificarGanador($tablero,$caracter1,$caracter2,$nombre1,$nombre2);
+                $continuar = false;
+            }
             
         }
         
