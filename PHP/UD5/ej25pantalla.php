@@ -1,23 +1,23 @@
 <?php
-session_start();
-$nombre = $_SESSION["nombre"];
-$imagen = "img/" . $_SESSION["foto"];
-$rand = random_int(1, 4);
-$clase = "";
-switch($rand){
-    case 1:
-        $clase = "1A";
-        break;
-    case 2:
-        $clase = "1B";
-        break;
-    case 3:
-        $clase = "1C";
-        break;
-    case 4:
-        $clase = "1D";
-        break;
-}
+    session_start();
+    $nombre = $_SESSION["nombre"];
+    $imagen = "img/" . $_SESSION["foto"];
+    $rand = random_int(1, 4);
+    $clase = "";
+    switch($rand){
+        case 1:
+            $clase = "1A";
+            break;
+        case 2:
+            $clase = "1B";
+            break;
+        case 3:
+            $clase = "1C";
+            break;
+        case 4:
+            $clase = "1D";
+            break;
+    }
 ?>
 
 <!DOCTYPE html>

@@ -42,7 +42,6 @@
             $mostrar = false;
         }
         
-
         if($mostrar){
             $_SESSION["nombre"]=$_POST["nombre"];
             $_SESSION["pass"]=$_POST["pass"];
