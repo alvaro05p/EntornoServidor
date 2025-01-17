@@ -1,7 +1,9 @@
 <?php
-    session_start();
+    
     $mostrar = true;
-    if(isset($_POST["enviar"])){
+    if(isset($_POST["validar"])){
+        $nombre = $_POST["nombre"];
+
         if(empty($_POST["nombre"])){
             echo "Indica tu nombre";
             echo "<br>";
@@ -42,17 +44,14 @@
             $mostrar = false;
         }
         
-        if($mostrar){
-            $_SESSION["nombre"]=$_POST["nombre"];
-            $_SESSION["pass"]=$_POST["pass"];
-            $_SESSION["estudios"]=$_POST["estudios"];
-            $_SESSION["nacionalidad"]=$_POST["nacionalidad"];
-            $_SESSION["idiomas"]=$_POST["idiomas"];
-            $_SESSION["email"]=$_POST["email"];
-            $_SESSION["foto"]=basename($_FILES["foto"]["name"]);
-            header("Location: ej25pantalla.php");
-        }
         
+
+    }
+?>
+
+<?php
+    if($mostrar && isset($_POST["enviar"])){
+        header("Location: ej25pantalla.php?nombre=" . urlencode($_POST['nombre'] . "&pass=" . urlencode($_POST['pass'])));
     }
 ?>
 
@@ -67,8 +66,8 @@
 <body>
     <h1>Rellena los datos</h1>
     <form action="ej25.php" method="POST" enctype="multipart/form-data">
-        <input type="text" name="nombre" placeholder="Nombre">
-        <input type="password" name="pass" placeholder="Contraseña">
+        <input type="text" name="nombre" placeholder="Nombre" value="<?php echo $nombre;?>">
+        <input type="password" name="pass" value="<?php echo $_POST['pass'] ?>" placeholder="Contraseña">
         <select name="estudios">
             <option value="" disabled selected>--Seleccionar--</option>
             <option value="Sin estudios">Sin estudios</option>
@@ -98,7 +97,13 @@
                 <input type="checkbox" name="idiomas[]" value="Francés">
             </label>
             <label>Alemán
-                <input type="checkbox" name="idiomas[]" value="Alemán">
+                <input type="checkbox" name="idiomas[]" value="Alemán" <?php
+                
+                    if(in_array("Alemán",$_POST["idiomas"])){
+                        echo "checked";
+                    }
+                ?>
+                >
             </label>
             <label>Italiano
                 <input type="checkbox" name="idiomas[]" value="Italiano">
@@ -106,7 +111,9 @@
         </div>
         <input type="text" name="email" placeholder="email">
         <input type="file" name="foto">
+        <input type="submit" name="validar" value="Validate">
         <input type="submit" name="enviar">
+        <input type="reset" name="borrar">
     </form>
 </body>
 </html>

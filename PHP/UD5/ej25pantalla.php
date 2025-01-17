@@ -1,7 +1,6 @@
 <?php
-    session_start();
-    $nombre = $_SESSION["nombre"];
-    $imagen = "img/" . $_SESSION["foto"];
+    $nombre = $_GET["nombre"];
+    $imagen = "img/" . $_FILES["foto"];
     $rand = random_int(1, 4);
     $clase = "";
     switch($rand){
