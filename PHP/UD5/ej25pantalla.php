@@ -5,6 +5,7 @@
     $nacionalidad = $_GET["nacionalidad"];
     $idiomas = $_GET["idiomas"];
     $email = $_GET["email"];
+    $foto = $_GET["foto"];
     
     $arrayIdiomas = [];
         
@@ -35,20 +36,22 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1><?php echo "Nombre: $nombre \n";?></h1>
+    <li><?php echo "Nombre: $nombre \n";?></li>
     <br>
-    <h1><?php echo "Contraseña: $pass \n";?></h1>
+    <li><?php echo "Contraseña: $pass \n";?></li>
     <br>
-    <h1><?php echo "Estudios: $estudios \n";?></h1>
+    <li><?php echo "Estudios: $estudios \n";?></li>
     <br>
-    <h1><?php echo "Nacionalidad: $nacionalidad \n";?></h1>
+    <li><?php echo "Nacionalidad: $nacionalidad \n";?></li>
     <br>
-    <h1><?php   echo "Idiomas:";  
+    <li><?php   echo "Idiomas:";  
                 foreach($idiomas as $idioma){
                     echo "$idioma \n";
                 } 
-    ?></h1>
+    ?></li>
     <br>
+
+    <img src="<?php echo $foto ?>" alt="foto de perfil" style='max-width: 200px; height: auto;'>
 
 </body>
 </html>

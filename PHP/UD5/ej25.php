@@ -9,7 +9,22 @@
         $nacionalidad = $_POST["nacionalidad"];
         $idiomas = $_POST["idiomas"];
         $email = $_POST["email"];
+        $dir_img = "img/";
+        $foto = $_FILES["foto"];
 
+        $nombre_img = $dir_img . $_FILES["foto"]["name"];
+
+        $partes = explode(".", $nombre_img);
+
+        $extension = $partes[1];
+
+        $extensiones = ["png","jpg", "webp", "gif"];
+
+        if(!in_array($extension, $extensiones)){
+            echo "Extensión de la img no válida";
+        }else{
+            move_uploaded_file($_FILES["foto"]["tmp_name"], $nombre_img); 
+        }
 
         if(empty($nombre)){
             
@@ -42,12 +57,24 @@
             echo "<br>";
             $mostrar = false;
         }
+        if(!isset($foto)){
+            echo "Introduce una foto de perfil";
+            echo "<br>";
+            $mostrar = false;
+        }
+
         
-    
+    if($mostrar){
+        echo "<h3 style='color: lightgreen'>Formulario correcto</h3>";
+    }
+
+    echo "Hola $nombre_img";
 
     if($mostrar && isset($_POST["enviar"])){
 
-        $enviar = "nombre=" . urlencode($nombre) . "&pass=" . urlencode($pass) . "&nacionalidad=" . urlencode($nacionalidad) . "&email=" . urlencode($email) . "&estudios=" . urlencode($estudios);
+        
+
+        $enviar = "nombre=" . urlencode($nombre) . "&pass=" . urlencode($pass) . "&nacionalidad=" . urlencode($nacionalidad) . "&email=" . urlencode($email) . "&estudios=" . urlencode($estudios) . "&foto=" . urlencode($nombre_img);
 
         foreach ($idiomas as $idioma) {
             $enviar .= "&idiomas[]=" . urlencode($idioma);
@@ -55,6 +82,8 @@
 
         header("Location: ej25pantalla.php?$enviar");
     }
+
+
 
 ?>
 
@@ -175,11 +204,19 @@
                 echo "checked";
             }
         
+
+
             ?>>
             </label>
         </div>
         <input type="text" name="email" placeholder="email" value="<?php echo $email ?>">
         <input type="file" name="foto">
+        <?php 
+        if(isset($_FILES['foto'])){
+            echo "<img src='$nombre_img' alt='Imagen subida' style='max-width: 100%; height: auto;'>";
+        }
+        
+        ?>
         <input type="submit" name="validar" value="Validate">
         <input type="submit" name="enviar">
         <input type="reset" name="borrar">
