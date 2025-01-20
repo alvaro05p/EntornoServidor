@@ -2,7 +2,6 @@
     
     $mostrar = true;
     
-        
         $nombre = $_POST["nombre"];
         $pass = $_POST["pass"];
         $estudios = $_POST["estudios"];
@@ -71,8 +70,6 @@
     echo "Hola $nombre_img";
 
     if($mostrar && isset($_POST["enviar"])){
-
-        
 
         $enviar = "nombre=" . urlencode($nombre) . "&pass=" . urlencode($pass) . "&nacionalidad=" . urlencode($nacionalidad) . "&email=" . urlencode($email) . "&estudios=" . urlencode($estudios) . "&foto=" . urlencode($nombre_img);
 
@@ -212,11 +209,11 @@
         <input type="text" name="email" placeholder="email" value="<?php echo $email ?>">
         <input type="file" name="foto">
         <?php 
-        if(isset($_FILES['foto'])){
-            echo "<img src='$nombre_img' alt='Imagen subida' style='max-width: 100%; height: auto;'>";
-        }
         
+            echo "<img src='$nombre_img' alt='Imagen subida' style='max-width: 100%; height: auto;'>";
+            
         ?>
+        <input type="hidden" name="nombre" value="<?php echo htmlspecialchars($nombre_img); ?>">
         <input type="submit" name="validar" value="Validate">
         <input type="submit" name="enviar">
         <input type="reset" name="borrar">
