@@ -1,6 +1,13 @@
 <?php
     $nombre = $_GET["nombre"];
-    $imagen = "img/" . $_FILES["foto"];
+    $pass = $_GET["pass"];
+    $estudios = $_GET["estudios"];
+    $nacionalidad = $_GET["nacionalidad"];
+    $idiomas = $_GET["idiomas"];
+    $email = $_GET["email"];
+    
+    $arrayIdiomas = [];
+        
     $rand = random_int(1, 4);
     $clase = "";
     switch($rand){
@@ -24,12 +31,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Curso</title>
+    <title>Alumno</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1><?php echo $nombre; ?></h1>
-    <img src="<?php echo $imagen; ?>" alt="Alumno" style="width: 200px;">
-    <h2><?php echo $clase; ?></h2>
+    <h1><?php echo "Nombre: $nombre \n";?></h1>
+    <br>
+    <h1><?php echo "Contraseña: $pass \n";?></h1>
+    <br>
+    <h1><?php echo "Estudios: $estudios \n";?></h1>
+    <br>
+    <h1><?php echo "Nacionalidad: $nacionalidad \n";?></h1>
+    <br>
+    <h1><?php   echo "Idiomas:";  
+                foreach($idiomas as $idioma){
+                    echo "$idioma \n";
+                } 
+    ?></h1>
+    <br>
+
 </body>
 </html>
