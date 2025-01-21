@@ -1,4 +1,10 @@
 <?php
+
+    /**
+     * @author Álvaro Pardo Peralta
+     * Formulario con imagen
+     */
+
     $errores = [];
     
     $mostrar = true;
