@@ -1,7 +1,9 @@
 <?php
+    $errores = [];
     
     $mostrar = true;
 
+    // Varibles sacadas del formulario
     $nombre = $_POST["nombre"];
     $pass = $_POST["pass"];
     $estudios = $_POST["estudios"];
@@ -14,10 +16,10 @@
 
     if(isset($_POST["validar"])){
     
+        // Expresiones regulares guardadas en variables
         $regexNombre = '/^[A-ZÁÉÍÓÚÑa-záéíóúñ]+(?: [A-ZÁÉÍÓÚÑa-záéíóúñ]+)*$/';
         $regexEmail = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
         $regexPass = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/';
-
 
         $nombre_img = $dir_img . $_FILES["foto"]["name"];
 
@@ -27,55 +29,82 @@
 
         $extensiones = ["png","jpg", "webp", "gif"];
 
+        // Recorremos el array de extensiones
         if(!in_array($extension, $extensiones)){
-            echo "Extensión de la img no válida";
+            $errores[] = "Extensión de la img no válida";
+        
+            $mostrar = false;
         }else{
             move_uploaded_file($_FILES["foto"]["tmp_name"], $nombre_img); 
         }
+        
+        // Comprobamos las expresiones regulares y seteamos un color y en caso de error no mostramos
 
+        if (!preg_match($regexNombre, $nombre) && !empty($nombre)) {
+            $colorNombre = "red"; 
+            $mostrar=false;
+             $errores[] = "El nombre no puede tener números";
+            
+        } elseif (!empty($nombre)) {
+            $colorNombre = "green"; 
+        }
+
+        if (!preg_match($regexPass, $pass) && !empty($pass)) {
+            $colorPass = "red";
+            $mostrar=false;
+            $errores[] = "La contraseña debe tener mayusculas, números y carácteres especiales";
+        } elseif (!empty($pass)) {
+            $colorPass = "green";
+        }
+
+        if (!preg_match($regexEmail, $email) && !empty($email)) {
+            $colorEmail = "red"; 
+            $mostrar=false; 
+             $errores[] = "El email debe tener el formato correcto";
+        } elseif (!empty($email)) {
+            $colorEmail = "green";
+        }
+
+        // Comprobamos que los valores no estén vacíos
         if(empty($nombre)){
             
-            echo "Indica tu nombre";
-            echo "<br>";
+            $errores[] = "Indica tu nombre";
             $mostrar = false;
         }
         if(empty($pass)){
-            echo "Introduce una contraseña";
-            echo "<br>";
+            $errores[] = "Introduce una contraseña";
             $mostrar = false;
         }
         if(empty($estudios)){
-            echo "Indica tu nivel de estudios";
-            echo "<br>";
+            $errores[] = "Indica tu nivel de estudios";
             $mostrar = false;
         }
         if(empty($nacionalidad)){
-            echo "Selecciona una nacionalidad";
-            echo "<br>";
+            $errores[] = "Selecciona una nacionalidad";
             $mostrar = false;
         }
         if(empty($idiomas)){
-            echo "Selecciona mínimo un idioma";
-            echo "<br>";
+            $errores[] = "Selecciona mínimo un idioma";
             $mostrar = false;
         }
         if(empty($email)){
-            echo "Introduce tu e-mail";
-            echo "<br>";
+            $errores[] = "Introduce tu e-mail";
             $mostrar = false;
         }
         if(!isset($foto_url)){
-            echo "Introduce una foto de perfil";
-            echo "<br>";
+            $errores[] = "Introduce una foto de perfil";
+            
             $mostrar = false;
         }
 
+        // Si todo es correcto mostramos este mensaje
         if($mostrar){
             echo "<h3 style='color: lightgreen'>Formulario correcto</h3>";
         }
 
     }
 
+    //Enviamos la url concatenando todos los valores necesarios
     if($mostrar && isset($_POST["enviar"])){
 
         $enviar = "nombre=" . urlencode($nombre) . "&pass=" . urlencode($pass) . "&nacionalidad=" . urlencode($nacionalidad) . "&email=" . urlencode($email) . "&estudios=" . urlencode($estudios) . "&foto=" . urlencode($foto_url);
@@ -98,21 +127,23 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
     <h1>Rellena los datos</h1>
+    <ul>
+        <?php 
+            
+            foreach ($errores as $error) {
+                echo "<li style='color:red';>$error</li>";
+            }
+        ?>
+    </ul>
+
     <form action="ej25.php" method="POST" enctype="multipart/form-data">
     <input type="text" name="nombre" placeholder="Nombre" value="<?php echo $nombre;?>" style="border-color:<?php 
-        if (!preg_match($regexNombre, $nombre) && !empty($nombre)) {
-            echo 'red';  
-        } elseif (!empty($nombre)) {
-            echo 'green'; 
-        }
+        echo $colorNombre;
     ?>;">
         <input type="password" name="pass" value="<?php echo $_POST['pass'] ?>" placeholder="Contraseña" style="border-color:<?php 
-        if (!preg_match($regexPass, $pass) && !empty($pass)) {
-            echo 'red';  
-        } elseif (!empty($pass)) {
-            echo 'green'; 
-        }
+        echo $colorPass;
     ?>;">
         <select name="estudios">
             <option value="" disabled selected>--Seleccionar--</option>
@@ -218,21 +249,15 @@
                 echo "checked";
             }
         
-
-
             ?>>
             </label>
         </div>
         <input type="text" name="email" placeholder="email" value="<?php echo $email ?>" style="border-color:<?php 
-            if (!preg_match($regexEmail, $email) && !empty($email)) {
-                echo 'red';  
-            } elseif (!empty($email)) {
-                echo 'green'; 
-            }
+            echo $colorEmail;
         ?>;">
         <input type="file" name="foto">
         <?php 
-        
+
             echo "<img src='$nombre_img' alt='Imagen subida' style='max-width: 100%; height: auto;'>";
 
         ?>

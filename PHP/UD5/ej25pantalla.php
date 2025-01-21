@@ -52,6 +52,6 @@
     <br>
 
     <img src="<?php echo $foto ?>" alt="foto de perfil" style='max-width: 200px; height: auto;'>
-
+    <h3><?php echo $foto ?></h3>
 </body>
 </html>
