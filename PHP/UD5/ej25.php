@@ -87,8 +87,6 @@
         header("Location: ej25pantalla.php?$enviar");
     }
 
-
-
 ?>
 
 <!DOCTYPE html>
@@ -102,8 +100,20 @@
 <body>
     <h1>Rellena los datos</h1>
     <form action="ej25.php" method="POST" enctype="multipart/form-data">
-        <input type="text" name="nombre" placeholder="Nombre" value="<?php echo $nombre;?>" style="<?php  ?>">
-        <input type="password" name="pass" value="<?php echo $_POST['pass'] ?>" placeholder="Contraseña">
+    <input type="text" name="nombre" placeholder="Nombre" value="<?php echo $nombre;?>" style="border-color:<?php 
+        if (!preg_match($regexNombre, $nombre) && !empty($nombre)) {
+            echo 'red';  
+        } elseif (!empty($nombre)) {
+            echo 'green'; 
+        }
+    ?>;">
+        <input type="password" name="pass" value="<?php echo $_POST['pass'] ?>" placeholder="Contraseña" style="border-color:<?php 
+        if (!preg_match($regexPass, $pass) && !empty($pass)) {
+            echo 'red';  
+        } elseif (!empty($pass)) {
+            echo 'green'; 
+        }
+    ?>;">
         <select name="estudios">
             <option value="" disabled selected>--Seleccionar--</option>
             <option value="Sin estudios" <?php 
@@ -213,7 +223,13 @@
             ?>>
             </label>
         </div>
-        <input type="text" name="email" placeholder="email" value="<?php echo $email ?>">
+        <input type="text" name="email" placeholder="email" value="<?php echo $email ?>" style="border-color:<?php 
+            if (!preg_match($regexEmail, $email) && !empty($email)) {
+                echo 'red';  
+            } elseif (!empty($email)) {
+                echo 'green'; 
+            }
+        ?>;">
         <input type="file" name="foto">
         <?php 
         
