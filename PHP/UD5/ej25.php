@@ -1,15 +1,23 @@
 <?php
     
     $mostrar = true;
+
+    $nombre = $_POST["nombre"];
+    $pass = $_POST["pass"];
+    $estudios = $_POST["estudios"];
+    $nacionalidad = $_POST["nacionalidad"];
+    $idiomas = $_POST["idiomas"];
+    $email = $_POST["email"];
+    $dir_img = "img/";
+    $foto = $_FILES["foto"];
+    $foto_url = $_POST["foto_url"];
+
+    if(isset($_POST["validar"])){
     
-        $nombre = $_POST["nombre"];
-        $pass = $_POST["pass"];
-        $estudios = $_POST["estudios"];
-        $nacionalidad = $_POST["nacionalidad"];
-        $idiomas = $_POST["idiomas"];
-        $email = $_POST["email"];
-        $dir_img = "img/";
-        $foto = $_FILES["foto"];
+        $regexNombre = '/^[A-ZÁÉÍÓÚÑa-záéíóúñ]+(?: [A-ZÁÉÍÓÚÑa-záéíóúñ]+)*$/';
+        $regexEmail = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
+        $regexPass = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/';
+
 
         $nombre_img = $dir_img . $_FILES["foto"]["name"];
 
@@ -56,22 +64,21 @@
             echo "<br>";
             $mostrar = false;
         }
-        if(!isset($foto)){
+        if(!isset($foto_url)){
             echo "Introduce una foto de perfil";
             echo "<br>";
             $mostrar = false;
         }
 
-        
-    if($mostrar){
-        echo "<h3 style='color: lightgreen'>Formulario correcto</h3>";
-    }
+        if($mostrar){
+            echo "<h3 style='color: lightgreen'>Formulario correcto</h3>";
+        }
 
-    echo "Hola $nombre_img";
+    }
 
     if($mostrar && isset($_POST["enviar"])){
 
-        $enviar = "nombre=" . urlencode($nombre) . "&pass=" . urlencode($pass) . "&nacionalidad=" . urlencode($nacionalidad) . "&email=" . urlencode($email) . "&estudios=" . urlencode($estudios) . "&foto=" . urlencode($nombre_img);
+        $enviar = "nombre=" . urlencode($nombre) . "&pass=" . urlencode($pass) . "&nacionalidad=" . urlencode($nacionalidad) . "&email=" . urlencode($email) . "&estudios=" . urlencode($estudios) . "&foto=" . urlencode($foto_url);
 
         foreach ($idiomas as $idioma) {
             $enviar .= "&idiomas[]=" . urlencode($idioma);
@@ -95,7 +102,7 @@
 <body>
     <h1>Rellena los datos</h1>
     <form action="ej25.php" method="POST" enctype="multipart/form-data">
-        <input type="text" name="nombre" placeholder="Nombre" value="<?php echo $nombre;?>">
+        <input type="text" name="nombre" placeholder="Nombre" value="<?php echo $nombre;?>" style="<?php  ?>">
         <input type="password" name="pass" value="<?php echo $_POST['pass'] ?>" placeholder="Contraseña">
         <select name="estudios">
             <option value="" disabled selected>--Seleccionar--</option>
@@ -211,9 +218,9 @@
         <?php 
         
             echo "<img src='$nombre_img' alt='Imagen subida' style='max-width: 100%; height: auto;'>";
-            
+
         ?>
-        <input type="hidden" name="nombre" value="<?php echo htmlspecialchars($nombre_img); ?>">
+        <input type="hidden" name="foto_url" value="<?php echo $nombre_img; ?>">
         <input type="submit" name="validar" value="Validate">
         <input type="submit" name="enviar">
         <input type="reset" name="borrar">
