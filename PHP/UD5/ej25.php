@@ -34,15 +34,6 @@
         $extension = $partes[1];
 
         $extensiones = ["png","jpg", "webp", "gif"];
-
-        // Recorremos el array de extensiones
-        if(!in_array($extension, $extensiones)){
-            $errores[] = "Extensión de la img no válida";
-        
-            $mostrar = false;
-        }else{
-            move_uploaded_file($_FILES["foto"]["tmp_name"], $nombre_img); 
-        }
         
         // Comprobamos las expresiones regulares y seteamos un color y en caso de error no mostramos
 
@@ -97,13 +88,29 @@
             $errores[] = "Introduce tu e-mail";
             $mostrar = false;
         }
-        if(!isset($foto_url)){
+        //Comprobamos que esté la imagen, que contenga una extension correcta y la subimos
+        if (isset($_FILES["foto"]) && $_FILES["foto"]["error"] == UPLOAD_ERR_OK) {
+            $nombre_img = $dir_img . $_FILES["foto"]["name"];
+            $partes = explode(".", $nombre_img);
+            $extension = end($partes);
+        
+            $extensiones = ["png", "jpg", "webp", "gif"];
+        
+            if (!in_array($extension, $extensiones)) {
+                $errores[] = "Extensión de la imagen no válida";
+                $mostrar = false;
+            } else {
+                if (!file_exists($nombre_img)) {
+                    move_uploaded_file($_FILES["foto"]["tmp_name"], $nombre_img);
+                }
+            }
+        } else if (!empty($foto_url)) {
+            $nombre_img = $foto_url; 
+        } else {
             $errores[] = "Introduce una foto de perfil";
-            
             $mostrar = false;
         }
 
-        // Si todo es correcto mostramos este mensaje
         if($mostrar){
             echo "<h3 style='color: lightgreen'>Formulario correcto</h3>";
         }

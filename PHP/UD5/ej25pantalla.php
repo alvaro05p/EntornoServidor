@@ -25,6 +25,12 @@
             $clase = "1D";
             break;
     }
+
+    if(isset($_GET["volver"])){
+        header("Location: ej25.php");
+    }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -53,5 +59,9 @@
 
     <img src="<?php echo $foto ?>" alt="foto de perfil" style='max-width: 200px; height: auto;'>
     <h3><?php echo $foto ?></h3>
+    <form action="ej25.php" method="POST">
+        <input type="submit" value="Volver" name="volver"> 
+    </form>
+    
 </body>
 </html>
