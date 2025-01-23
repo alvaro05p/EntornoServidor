@@ -8,28 +8,40 @@
      * satisfactoriamente” en verde. Tendremos cuatro oportunidades para abrir la caja fuerte.
      */
 
-    if (!isset($_GET["pin"])) {
-        $pin = rand(1000,9999);
-        $intentos = 4;
-    }
-
     $mensaje = "";
 
+    $probar=true;
+
+    $pin = rand(1000,9999);
+    
     echo $pin;
+    $intentos = 4;
 
-    if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["pin"])) {
-        $introducido = $_GET["pin"];
-        if($introducido == $_GET["pin"]){
-            $mensaje = "<p style='color: green;'>Pin correcto</p>";
-        }else{
-            $mensaje = "<p style='color: red;'>Pin incorrecto</p>";
-            $_GET['intentos'] --;
+    if (!isset($_GET["pin"])) {
+        
+        if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["pin"])) {
+            $introducido = $_GET["pin"];
+            if($introducido == $pin){
+                $mensaje = "<p style='color: green;'>Pin correcto</p>";
+            }else{
+                $mensaje = "<p style='color: red;'>Pin incorrecto</p>";
+                $intentos--;
+            }
+    
+            if($intentos = 0){
+                $mensaje = "<p style='color: red;'>Demasiados intentos</p>";
+            }
         }
 
-        if($intentos = 0){
-            $mensaje = "<p style='color: red;'>Demasiados intentos</p>";
-        }
     }
+
+    echo $mensaje;
+    echo "<br>";
+    echo "";
+
+    
+
+    
 
 ?>
 
