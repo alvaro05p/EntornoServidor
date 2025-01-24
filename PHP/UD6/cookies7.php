@@ -12,24 +12,37 @@
 
     $probar=true;
 
-    $pin = rand(1000,9999);
+    $pin = "8071";
     
-    echo $pin;
-    $intentos = 4;
+    echo $pin . " Intentos: " . $_COOKIE["intentos"];
 
-    if (!isset($_GET["pin"])) {
+    setcookie('pin', strval($pin), time()+3600);
+
+    if(!isset($_COOKIE["intentos"])){
+
+        setcookie('intentos', strval(4), time()+3600);
+    
+    }
+
+    
+
+    if (isset($_GET["abrir"])) {
         
         if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["pin"])) {
             $introducido = $_GET["pin"];
-            if($introducido == $pin){
+
+            if($introducido == $_COOKIE["pin"]){
                 $mensaje = "<p style='color: green;'>Pin correcto</p>";
             }else{
                 $mensaje = "<p style='color: red;'>Pin incorrecto</p>";
+                $intentos = intval($_COOKIE["intentos"]);
                 $intentos--;
+                setcookie('intentos', strval($intentos), time()+3600);
             }
     
-            if($intentos = 0){
+            if($_COOKIE["intentos"] == 0){
                 $mensaje = "<p style='color: red;'>Demasiados intentos</p>";
+                setcookie('intentos', strval(4), time()+3600);
             }
         }
 
@@ -38,10 +51,6 @@
     echo $mensaje;
     echo "<br>";
     echo "";
-
-    
-
-    
 
 ?>
 
@@ -57,9 +66,9 @@
     <h1>Inserte el pin de la caja fuerte</h1>
     <form action="cookies7.php" method="GET">
         <input type="text" name="pin" maxlength="4">
-        <input type="submit" value="Abrir">
+        <input type="hidden" name="foto_url" value="<?php echo $intentos ?>">
+        <input type="submit" value="Abrir" name="abrir">
     </form>
 
-    <?php echo $mensaje; ?>
 </body>
 </html>
