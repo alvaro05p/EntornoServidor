@@ -23,8 +23,8 @@
     if(isset($_POST["validar"])){
     
         // Expresiones regulares guardadas en variables
-        $regexNombre = '/^[A-ZÁÉÍÓÚÑa-záéíóúñ]+(?: [A-ZÁÉÍÓÚÑa-záéíóúñ]+)*$/';
-        $regexEmail = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
+        //$regexNombre = '/^[A-ZÁÉÍÓÚÑa-záéíóúñ]+(?: [A-ZÁÉÍÓÚÑa-záéíóúñ]+)*$/';
+        //$regexEmail = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
         $regexPass = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/';
 
         $nombre_img = $dir_img . $_FILES["foto"]["name"];
@@ -37,10 +37,10 @@
         
         // Comprobamos las expresiones regulares y seteamos un color y en caso de error no mostramos
 
-        if (!preg_match($regexNombre, $nombre) && !empty($nombre)) {
+        if (!ctype_alpha($nombre) && !empty($nombre)) {
             $colorNombre = "red"; 
             $mostrar=false;
-             $errores[] = "El nombre no puede tener números";
+            $errores[] = "El nombre no puede tener números";
             
         } elseif (!empty($nombre)) {
             $colorNombre = "green"; 
@@ -54,7 +54,7 @@
             $colorPass = "green";
         }
 
-        if (!preg_match($regexEmail, $email) && !empty($email)) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($email)) {
             $colorEmail = "red"; 
             $mostrar=false; 
              $errores[] = "El email debe tener el formato correcto";
