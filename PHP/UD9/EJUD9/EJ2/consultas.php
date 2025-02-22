@@ -8,7 +8,7 @@
     require_once("../db.php");
 
     try {
-        $conexion = new PDO("mysql:host=".HOST.";dbname=EMPRESA;charset=utf8", MYSQL_USER, MYSQL_PASSWORD);
+        $conexion = new PDO("mysql:host=".HOST.";dbname=EMPRESA;charset=utf8", MYSQL_ROOT, MYSQL_ROOT_PASSWORD);
         // Habilitar el modo de errores de PDO
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         echo "Conexión exitosa\n";
@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt->execute();
             $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
-            echo json_encode($resultado);
+            echo json_encode($resultados);
             
             break;
 
@@ -67,176 +67,299 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt->execute();
             $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
-            echo json_encode($resultado);
+            echo json_encode($resultados);
             
             break;
+        
         case 'ListadoClientesPorPoblacion':
             //Listado de Clientes de una población seleccionada ordenados por población
+            $sql = "SELECT * FROM CLIENTE WHERE POBLACION LIKE :poblacion ORDER BY POBLACION";
+            $stmt = $conexion->prepare($sql);
+
+            // Enlazamos el parámetro
+            $stmt->bindParam(':poblacion', $_POST["poblacion"], PDO::PARAM_STR);
+
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            echo json_encode($resultados);
             
             break;
 
         case 'NumeroClientesPorPoblacion':
-            //Listado de Clientes de una población seleccionada ordenados por población
+            //Número de clientes por población
+            $sql = "SELECT POBLACION, COUNT(*) AS NUM_CLIENTES FROM CLIENTE GROUP BY POBLACION";
+            $stmt = $conexion->prepare($sql);
+
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            echo json_encode($resultados);
             
             break;
 
         case 'ListadoClientesConCompras':
             //Datos de Clientes que han realizado compras ordenados por dni de cliente
+            $sql = "SELECT DISTINCT C.* FROM CLIENTE C
+                    INNER JOIN COMPRA CO ON C.DNI = CO.CLIENTE
+                    ORDER BY C.DNI";
+            $stmt = $conexion->prepare($sql);
+
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            echo json_encode($resultados);
             
             break;
+
         case 'ListadoClientesSinCompras':
             //Datos de Clientes que no han realizado compras ordenados por dni de cliente
-           
+            $sql = "SELECT * FROM CLIENTE C
+                    WHERE NOT EXISTS (SELECT 1 FROM COMPRA CO WHERE CO.CLIENTE = C.DNI)
+                    ORDER BY C.DNI";
+            $stmt = $conexion->prepare($sql);
+
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            echo json_encode($resultados);
+            
             break;
+
         case 'ListadoClientesConComprasDadaPoblacion':
             //Datos de Clientes que han realizado compras de una población seleccionada ordenados por dni de cliente
+            $sql = "SELECT DISTINCT C.* FROM CLIENTE C
+                    INNER JOIN COMPRA CO ON C.DNI = CO.CLIENTE
+                    WHERE C.POBLACION LIKE :poblacion
+                    ORDER BY C.DNI";
+            $stmt = $conexion->prepare($sql);
+
+            // Enlazamos el parámetro
+            $stmt->bindParam(':poblacion', $_POST["poblacion"], PDO::PARAM_STR);
+
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            echo json_encode($resultados);
             
             break;
+
         case 'ListadoClientesSinComprasDadaPoblacion':
             //Datos de Clientes que no han realizado compras de una población seleccionada ordenados por dni de cliente
+            $sql = "SELECT * FROM CLIENTE C
+                    WHERE C.POBLACION LIKE :poblacion
+                    AND NOT EXISTS (SELECT 1 FROM COMPRA CO WHERE CO.CLIENTE = C.DNI)
+                    ORDER BY C.DNI";
+            $stmt = $conexion->prepare($sql);
+
+            // Enlazamos el parámetro
+            $stmt->bindParam(':poblacion', $_POST["poblacion"], PDO::PARAM_STR);
+
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            echo json_encode($resultados);
             
             break;
+
         case 'ListadoClientesConComprasValencia':
             //Datos de Clientes que han realizado compras con algún cliente de la población de Valencia ordenados por dni de cliente
+            $sql = "SELECT DISTINCT C.* FROM CLIENTE C
+                    INNER JOIN COMPRA CO ON C.DNI = CO.CLIENTE
+                    WHERE C.POBLACION = 'Valencia'
+                    ORDER BY C.DNI";
+            $stmt = $conexion->prepare($sql);
+
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            echo json_encode($resultados);
             
             break;
 
         case 'ListadoClientesConTresOMasCompras':
             //Listado de clientes que han realizado 3 o más compras ordenados por dni de cliente
-           
-            break;
-        case 'ListadoClientesConTresComprasOMasPorPoblacion':
-            //Listado de clientes que han realizado 3 compras o más de una población seleccionada ordenados por dni de cliente
-           
+            $sql = "SELECT C.DNI, C.NOMBRE, C.APELLIDOS, COUNT(*) AS NUM_COMPRAS FROM CLIENTE C
+                    INNER JOIN COMPRA CO ON C.DNI = CO.CLIENTE
+                    GROUP BY C.DNI
+                    HAVING COUNT(*) >= 3
+                    ORDER BY C.DNI";
+            $stmt = $conexion->prepare($sql);
+
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            echo json_encode($resultados);
+            
             break;
 
-            //Consultas con proveedores
+        case 'ListadoClientesConTresComprasOMasPorPoblacion':
+            //Listado de clientes que han realizado 3 compras o más de una población seleccionada ordenados por dni de cliente
+            $sql = "SELECT C.DNI, C.NOMBRE, C.APELLIDOS, COUNT(*) AS NUM_COMPRAS FROM CLIENTE C
+                    INNER JOIN COMPRA CO ON C.DNI = CO.CLIENTE
+                    WHERE C.POBLACION LIKE :poblacion
+                    GROUP BY C.DNI
+                    HAVING COUNT(*) >= 3
+                    ORDER BY C.DNI";
+            $stmt = $conexion->prepare($sql);
+
+            // Enlazamos el parámetro
+            $stmt->bindParam(':poblacion', $_POST["poblacion"], PDO::PARAM_STR);
+
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            echo json_encode($resultados);
+            
+            break;
+
+            // Consultas con proveedores
         case 'ProveedorPorNif':
             //Datos de proveedor por NIF
-           
+            $sql = "SELECT * FROM PROVEEDOR WHERE NIF LIKE :nif";
+            $stmt = $conexion->prepare($sql);
+
+            // Enlazamos el parámetro
+            $stmt->bindParam(':nif', $_POST["proveedor"], PDO::PARAM_STR);
+
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            echo json_encode($resultados);
+            
             break;
 
         case 'ListadoProveedores':
             //Listado de todos los proveedores ordenados por nif de proveedor
+            $sql = "SELECT * FROM PROVEEDOR ORDER BY NIF";
+            $stmt = $conexion->prepare($sql);
+
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            echo json_encode($resultados);
             
             break;
 
         case 'ProveedoresEmpiezanPorTexto':
             //Datos de proveedores que empiezan por un texto seleccionado ordenados por nif de proveedor
-           
+            $sql = "SELECT * FROM PROVEEDOR WHERE NOMBRE LIKE :texto ORDER BY NIF";
+            $stmt = $conexion->prepare($sql);
+
+            // Enlazamos el parámetro
+            $stmt->bindParam(':texto', $_POST["parametro"], PDO::PARAM_STR);
+
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            echo json_encode($resultados);
+            
             break;
 
         case 'ProveedoresProductosPvpMayor1000':
             //Datos de proveedores con productos con precio mayor a 1000€ ordenados por nif de proveedor
+            $sql = "SELECT DISTINCT P.* FROM PROVEEDOR P
+                    INNER JOIN PRODUCTO PR ON P.NIF = PR.PROVEEDOR
+                    WHERE PR.PVP > 1000
+                    ORDER BY P.NIF";
+            $stmt = $conexion->prepare($sql);
+
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            echo json_encode($resultados);
             
             break;
 
-            //Consultas con productos
+            // Consultas con productos
         case 'ProductoPorCodProd':
             //Datos de producto por COD_PROD
+            $sql = "SELECT * FROM PRODUCTO WHERE COD_PROD LIKE :cod_prod";
+            $stmt = $conexion->prepare($sql);
+
+            // Enlazamos el parámetro
+            $stmt->bindParam(':cod_prod', $_POST["producto"], PDO::PARAM_STR);
+
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            echo json_encode($resultados);
             
             break;
 
         case 'ListadoProductos':
             //Listado de todos los productos ordenados por codigo de producto
-           
+            $sql = "SELECT * FROM PRODUCTO ORDER BY COD_PROD";
+            $stmt = $conexion->prepare($sql);
+
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            echo json_encode($resultados);
+            
             break;
 
         case 'ProductosPvpMenorOIgual100':
             //Datos de productos con precio menor a 100 ordenados por codigo de producto
+            $sql = "SELECT * FROM PRODUCTO WHERE PVP <= 100 ORDER BY COD_PROD";
+            $stmt = $conexion->prepare($sql);
+
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            echo json_encode($resultados);
             
             break;
 
         case 'ProductosPVPMayorPromedio':
             //Productos con precio mayor al promedio ordenados por codigo de producto
+            $sql = "SELECT * FROM PRODUCTO WHERE PVP > (SELECT AVG(PVP) FROM PRODUCTO) ORDER BY COD_PROD";
+            $stmt = $conexion->prepare($sql);
+
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            echo json_encode($resultados);
             
             break;
 
         case 'PvpMaximoProductos':
             //PVP máximo de los productos
-           
+            $sql = "SELECT MAX(PVP) AS PVP_MAXIMO FROM PRODUCTO";
+            $stmt = $conexion->prepare($sql);
+
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            echo json_encode($resultados);
+            
             break;
 
         case 'PvpMinimoProductos':
             //PVP mínimo de los productos
-          
+            $sql = "SELECT MIN(PVP) AS PVP_MINIMO FROM PRODUCTO";
+            $stmt = $conexion->prepare($sql);
+
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            echo json_encode($resultados);
+            
             break;
 
         case 'PvpPromedioProductos':
             //PVP promedio de los productos
-           
-            break;
+            $sql = "SELECT AVG(PVP) AS PVP_PROMEDIO FROM PRODUCTO";
+            $stmt = $conexion->prepare($sql);
 
-        case "ProductosNombreContieneTexto":
-            //Productos cuyo nombre contiene un texto dado ordenados por codigo de producto
-           
-            break;
-
-        //consultas con compras
-        case 'ListadoCompras':
-            //Listado de todas las compras mostrando nombre y apellidos de cliente, código y nombre de producto, nombre de proveedor, fecha y unidades ordenados por dni de cliente y código de producto
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
-            break;
-
-        case 'ComprasDeAnyo':
-            //Datos de compras a partir de un año dado ordenados por fecha
+            echo json_encode($resultados);
             
-            break;
-
-        case 'ComprasDeCliente':
-            //Datos de compras de un cliente dado ordenados por dni de cliente
-            
-            break;
-
-        case 'ComprasDeProducto':
-            //Datos de compras de un producto dado ordenados por código de producto
-            
-            break;
-
-        case 'ComprasDeProveedor':
-            //Datos de compras de un proveedor dado ordenados por nif de proveedor
-           
-            break;
-
-        case 'ComprasDePoblacion':
-            //Datos de compras de una población dada ordenados por población
-            
-            break;
-
-        case 'ComprasDeClientesValencia':
-            //Datos de compras con algún cliente de la población de Valencia ordenados por dni de cliente   
-           
-            break;
-
-        case 'ComprasConIgualOMasDe2Unidades':
-            //Datos de compras con igual o más de 2 unidades ordenados por dni de cliente
-           
-            break;
-
-        case 'ComprasConMasDe3productos':
-            //Datos de compras con más de 3 productos ordenados por dni de cliente
-          
-            break;
-
-        case 'ComprasMinimo10Unidades':
-            //Datos de compras con un mínimo de 10 unidades ordenados por dni de cliente
-            
-            break;
-
-        default:
             break;
     }
-
-    // Ejecuta la consulta si está definida
-    if (isset($consulta)) {
-        //ejecutamos la consulta con los parámetros (si los hay) y obtenemos un vector asociativo
-        $consulta = $_POST["tipoConsulta"];
-    }
-
-    // Cierra la conexión (iguala a null)
     
-
-    // Devuelve los resultados como JSON si hay resultados
     
 }
 ?>
