@@ -3,7 +3,7 @@
     require_once("../db.php");
 
     try {
-        $conexion = new PDO("mysql:host=".HOST.";dbname=EMPRESA;charset=utf8", MYSQL_ROOT, MYSQL_ROOT_PASSWORD);
+        $conexion = new PDO("mysql:host=".HOST.";dbname=EMPRESA;charset=utf8", MYSQL_USER, MYSQL_PASSWORD);
         // Habilitar el modo de errores de PDO
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         echo "Conexión exitosa";

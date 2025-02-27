@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Silvia Vilar
+ * @author Álvaro Pardo
  * Ej1UD9 - mainIncidencia.php
  */ 
 include_once "Incidencia.php";
@@ -12,21 +12,25 @@ $inc4 = Incidencia::creaIncidencia(237, "Hace un ruido extraño");
 $inc5 = Incidencia::creaIncidencia(111, "Se cuelga al abrir 3 ventanas");
 $inc2->resuelve("El equipo no estaba enchufado");
 $inc3->resuelve("Cambio del cable VGA");
+echo "Incidencias sueltas: \n";
 print $inc1;
 print $inc2;
 print $inc3;
 print $inc4;
 print $inc5;
-print "Incidencias pendientes: " . Incidencia::getPendientes();
+print "Incidencias pendientes: " . Incidencia::getPendientes() . "\n";
+echo "Lee incidencias de una en una: \n";
 Incidencia::leeIncidencia($inc1->getCodigo());
 Incidencia::leeIncidencia($inc2->getCodigo());
 Incidencia::leeIncidencia($inc5->getCodigo());
+echo "Todas las incidencias: \n";
 Incidencia::leeTodasIncidencias();
 $inc3->actualizaIncidencia("","La pantalla se ve AZUL","","");
 $inc4->actualizaIncidencia("","El ruido es del ventilador","","");
 $inc4->resuelve("Se ha limpiado el ventilador");
 $inc5->actualizaIncidencia("","Se cuelga al abrir 2 programas","","");
 $inc2->borraIncidencia();  
+echo "Todas las incidencias otra vez después de actualizar: \n";
 Incidencia::leeTodasIncidencias();  
 
 ?>

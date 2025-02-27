@@ -9,7 +9,7 @@ trait traitDB{
         try {
             // Corregir el DSN y usar la constante correcta para el nombre de la base de datos
             $dsn = "mysql:host=" . HOST . ";dbname=INCIDENCIAS" . ";charset=utf8mb4";
-            $conn = new PDO($dsn, MYSQL_ROOT, MYSQL_ROOT_PASSWORD);
+            $conn = new PDO($dsn, MYSQL_USER, MYSQL_PASSWORD);
             
             // Configurar el modo de error de PDO a excepción
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

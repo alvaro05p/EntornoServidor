@@ -12,31 +12,35 @@ class Incidencia
     use traitDB; // Usamos el trait para manejar la conexión y operaciones con la base de datos
 
     // Propiedades de la incidencia
+    private static $codigoInc = 1;
     private $codigo;
     private $estado;
     private $puesto;
     private $problema;
     private $resolucion;
+    static $numPendientes = 0;
 
     // Constantes para los estados de la incidencia
     const ESTADO_PENDIENTE = "Pendiente";
     const ESTADO_RESUELTA = "Resuelta";
 
     // Constructor privado para evitar instanciación directa
-    private function __construct($codigo, $estado, $puesto, $problema, $resolucion)
+    private function __construct($puesto, $problema)
     {
-        $this->codigo = $codigo;
-        $this->estado = $estado;
+        $this->codigo = self::$codigoInc;
+        $this->estado = "Pendiente";
         $this->puesto = $puesto;
         $this->problema = $problema;
-        $this->resolucion = $resolucion;
+        self::$numPendientes++;
+        self::$codigoInc++;
+
     }
 
     // Método estático para crear una incidencia
     public static function creaIncidencia($puesto, $problema)
     {
         // Generar un código único para la incidencia
-        $codigo = rand(1, 1000);
+        $codigo = self::$codigoInc;
 
         // Estado inicial: Pendiente
         $estado = self::ESTADO_PENDIENTE;
@@ -73,6 +77,7 @@ class Incidencia
             ':resolucion' => $this->resolucion,
             ':codigo' => $this->codigo
         ];
+        self::$numPendientes--;
         self::queryPreparadaDB($sql, $parametros);
     }
 
@@ -82,7 +87,7 @@ class Incidencia
         $sql = "SELECT COUNT(*) AS pendientes FROM INCIDENCIA WHERE ESTADO = :estado";
         $parametros = [':estado' => self::ESTADO_PENDIENTE];
         $resultado = self::queryPreparadaDB($sql, $parametros);
-        return $resultado[0]['pendientes'];
+        return self::$numPendientes;
     }
 
     // Método para leer una incidencia por su código
@@ -90,53 +95,97 @@ class Incidencia
     {
         $sql = "SELECT * FROM INCIDENCIA WHERE CODIGO = :codigo";
         $parametros = [':codigo' => $codigo];
-        return self::queryPreparadaDB($sql, $parametros);
+        $resultado = self::queryPreparadaDB($sql, $parametros);
+        
+        if (!empty($resultado) && isset($resultado[0])) {
+            $incidencia = $resultado[0];
+            $salida = "Incidencia " . $incidencia['CODIGO'] . " - Puesto: " . $incidencia['PUESTO'] . ", Problema: " . $incidencia['PROBLEMA'] . ", Estado: " . $incidencia['ESTADO'] . ", Resolución: " . ($incidencia['RESOLUCION'] . "\n"?? '');
+            echo $salida;
+        }
+        return "No se encontró la incidencia con código " . $codigo;
     }
 
     // Método para leer todas las incidencias
     public static function leeTodasIncidencias()
     {
         $sql = "SELECT * FROM INCIDENCIA";
-        return self::queryPreparadaDB($sql, []);
+        $resultado = self::queryPreparadaDB($sql, []);
+        
+        $salida = "";
+        foreach ($resultado as $incidencia) {
+            $salida .= "Incidencia " . $incidencia['CODIGO'] . " - Puesto: " . $incidencia['PUESTO'] . ", Problema: " . $incidencia['PROBLEMA'] . ", Estado: " . $incidencia['ESTADO'] . ", Resolución: " . ($incidencia['RESOLUCION'] ?? '') . "\n";
+        }
+        echo $salida ?: "No hay incidencias registradas";
     }
 
     // Método para actualizar una incidencia
     public function actualizaIncidencia($estado, $problema, $resolucion, $puesto)
     {
-        if (!empty($estado)) $this->estado = $estado;
-        if (!empty($problema)) $this->problema = $problema;
-        if (!empty($resolucion)) $this->resolucion = $resolucion;
-        if (!empty($puesto)) $this->puesto = $puesto;
-
+        $this -> setEstado($estado);
+        $this -> setProblema($problema);
+        $this -> setResolucion($resolucion);
+        $this -> setPuesto($puesto);
         // Actualizar la base de datos
         $sql = "UPDATE INCIDENCIA SET ESTADO = :estado, PROBLEMA = :problema, RESOLUCION = :resolucion, PUESTO = :puesto WHERE CODIGO = :codigo";
         $parametros = [
-            ':estado' => $this->estado,
-            ':problema' => $this->problema,
-            ':resolucion' => $this->resolucion,
-            ':puesto' => $this->puesto,
-            ':codigo' => $this->codigo
+            ':estado' => $this->getEstado(),
+            ':problema' => $this->getProblema(),
+            ':resolucion' => $this->getResolucion(),
+            ':puesto' => $this->getPuesto(),
+            ':codigo' => $this->getCodigo()
         ];
         self::queryPreparadaDB($sql, $parametros);
+        echo "Incidencia actualizada\n";
     }
 
-    // Método para borrar una incidencia
     public function borraIncidencia()
     {
         $sql = "DELETE FROM INCIDENCIA WHERE CODIGO = :codigo";
-        $parametros = [':codigo' => $this->codigo];
+        $parametros = [':codigo' => $this->getCodigo()];
         self::queryPreparadaDB($sql, $parametros);
     }
 
-    // Método mágico para convertir la incidencia a cadena
     public function __toString()
     {
-        return "Incidencia {$this->codigo} - Puesto: {$this->puesto}, Problema: {$this->problema}, Estado: {$this->estado}, Resolución: {$this->resolucion}\n";
+        return "Incidencia {$this->getCodigo()} - Puesto: {$this->getPuesto()}, Problema: {$this->getProblema()}, Estado: {$this->getEstado()}, Resolución: {$this->getResolucion()}\n";
     }
 
-    // Getter para el código
+    // Getters
     public function getCodigo()
     {
         return $this->codigo;
     }
+    public function getPuesto(){
+        return $this->puesto;
+    }
+    public function getEstado(){
+        return $this->estado;
+    }
+    public function getProblema(){
+        return $this->problema;
+    }
+    public function getResolucion(){
+        return $this->resolucion;
+    }
+
+    // Setters
+    public function setCodigo($codigo)
+    {
+        $this->codigo = $codigo;
+    }
+    public function setPuesto($puesto){
+        $this->puesto = $puesto;
+    }
+    public function setEstado($estado){
+        $this->estado = $estado;
+    }
+    public function setProblema($problema){
+        $this->problema = $problema;
+    }
+    public function setResolucion($resolucion){
+        $this->resolucion = $resolucion;
+    }
+    
+
+    
 }
